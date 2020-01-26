@@ -1,0 +1,67 @@
+//centrare tutto simmetricamente
+//filechooser come windows
+//filechoser con .dif di default
+//messaggi di errore e conferma con icone giuste
+//icona del programma
+//conferma filename senza path
+		cerca exact name no path, o filename.lastIndexOf(".")
+		oppure file.getname() da classe File e non String
+		oppure cerca Path p = Paths.get(...) e poi String nomefile = p.getFileName().toString()
+
+
+
+//Enter file name and path here... selezionato e che scompare se ci clicki sopra
+//fai bene il tasto convert
+//non succede nulla se apro un file a caso: mettere un if sull'estensione
+//filechooser in inglese e non come sistema? prova a scrivere nel main (prima di ogni UI) il codice
+		Locale.setDefault(Locale.ENGLISH)
+		oppure prima del filechooser JFileChooser.setDefaultLocale(Locale.ENGLISH)
+
+//log window
+//autoresize plot.
+//centrare la finestra del plot, maybe with setLocationRelativeTo(null)
+
+spinners per multiple conversion (sequential)
+put all the logs into a dedicated folder
+credits, menu, help
+
+
+
+
+//drag and drop
+from http://stackoverflow.com/questions/9669530/drag-and-drop-file-path-to-java-swing-jtextfield
+
+
+import java.awt.datatransfer.DataFlavor;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDropEvent;
+import java.io.File;
+import java.util.List;
+
+import javax.swing.*;
+
+public class Test {
+
+public static void main(String[] args) {
+    JTextArea myPanel = new JTextArea(); //maybe you need to define it as final
+
+    myPanel.setDropTarget(new DropTarget() {
+        public synchronized void drop(DropTargetDropEvent evt) {
+            try {
+                evt.acceptDrop(DnDConstants.ACTION_COPY);
+                List<File> droppedFiles = (List<File>) evt.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
+                for (File file : droppedFiles) {
+                  myPanel.setText(file.getAbsolutePath());
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+              }
+        }
+    });
+
+    JFrame frame = new JFrame();
+    frame.add(myPanel);
+    frame.setVisible(true);
+}
+}
